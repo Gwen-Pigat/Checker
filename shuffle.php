@@ -2,7 +2,8 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-<?php $host = "localhost"; 
+<?php 
+$host = "localhost"; 
 $username = "root"; 
 $password = "motdepasselocalhostgwen"; 
 $db_name = "MDPHebergeur"; 
@@ -12,6 +13,8 @@ $password = str_shuffle("salutcommentcava1234567890");
 $date = date("Y-m-d H:i:s"); 
 ?>
 
+
+<!-- Page des mots de passe -->
 
 <?php if (isset($_GET['hebergeur'])) { ?>
 
@@ -29,6 +32,7 @@ $date = date("Y-m-d H:i:s");
  <?php echo "<strong>Mot de passe : </strong><br>$password<br><br><strong>Généré le :</strong><br>$date"; ?> 
 </div>
 
+
 <?php 
 
 	if (isset($_POST['submit'])) {
@@ -37,6 +41,9 @@ $date = date("Y-m-d H:i:s");
 	mysqli_close(); 
 	}
 } 
+
+
+// Page des dépenses
 
 elseif(isset($_GET['depenses'])){ ?>
 
@@ -72,17 +79,18 @@ mysqli_close();
 	if (isset($_POST['depenses']) && !empty($_POST['depenses'])) {
 		mysqli_query($link, "UPDATE DepensesGwen SET Date='$date', SommeDisponible='$depenses'");
 		mysqli_query($link, "INSERT INTO ListeDepense(nom,retrait,date) VALUES ('$_POST[nom]','$_POST[depenses]','$date')");
-		echo "<div class='container text-center'>Mise à jour<br><i class='fa fa-refresh fa-spin fa-5x'></i></div>";
+		// echo "<div class='container text-center'>Mise à jour<br><i class='fa fa-refresh fa-spin fa-5x'></i></div>";
 		mysqli_close(); 
-		header("Refresh: 1; url=shuffle.php?depenses");	
+		header("location: shuffle.php?depenses");	
 	}
 
 	elseif(isset($_POST['ajout']) && !empty($_POST['ajout'])){
 		mysqli_query($link, "UPDATE DepensesGwen SET Date='$date', SommeDisponible='$ajout'");
 		mysqli_query($link, "INSERT INTO ListeDepense(nom,ajout,date) VALUES ('$_POST[nom]','$_POST[ajout]','$date')");
-		echo "<div class='container text-center'>Mise à jour<br><i class='fa fa-refresh fa-spin fa-5x'></i></div>";
+		// echo "<div class='container text-center'>Mise à jour<br><i class='fa fa-refresh fa-spin fa-5x'></i></div>";
 		mysqli_close(); 
-		header("Refresh: 1; url=shuffle.php?depenses");	
+		// header("Refresh: 1; url=shuffle.php?depenses");
+		header("Location: shuffle.php?depenses");	
 	}
 
 	// Liste des dépenses
@@ -103,21 +111,27 @@ echo "<div class='container'>";
 echo "</div>";
 
 }
-if (isset($_GET['remove'])) {
+
+elseif (isset($_GET['remove'])) {
 	mysqli_query($link, "DELETE FROM ListeDepense WHERE id='$_GET[remove]'");
 	header('Location: shuffle.php?depenses');
 }
 
 
 
-else{ ?>
+// Page par défault
 
-<div class="text-center button">
-<a href="shuffle.php?depenses"><button class="btn btn-danger"><i class="fa fa-money fa-5x"></i></button></a>
-<a href="shuffle.php?hebergeur"><button class="btn btn-success"><i class="fa fa-code fa-5x"></i></button></a>
-</div>
+else{
 
-<?php } ?>
+echo "<div class='text-center button'>
+<a href='shuffle.php?depenses'><button class='btn btn-danger'><i class='fa fa-money fa-5x'></i></button></a>
+<a href='shuffle.php?hebergeur'><button class='btn btn-success'><i class='fa fa-code fa-5x'></i></button></a>
+</div>";
+
+} 
+
+
+?>
 
 <style type="text/css">
 
