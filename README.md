@@ -1,3 +1,5 @@
+<h1>Le Checker</h1>
+
 <p>Petit fichier qui me permet de générer aléatoirement mes mots de passe selon la méthode "str_shuffle".</p>
 <p>Le refresh actualise le MDP mais ne l'insère pas en BDD. Pour cela il faudra cliquer sur "Générer un nouveau"</p>
 <p>La deuxième fonctionnalité du Checker est sa possiblité de gérer ses dépenses.</p>
