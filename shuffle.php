@@ -61,7 +61,7 @@ mysqli_close();
 ?>
 
 </div> 
-
+<form action="TCPDF.php" method="POST"><button class="btn btn-info">Générer un PDF</button></form>
 <form action="shuffle.php?depenses" method="POST" class="text-center submit">
 <input type="number" name="depenses" placeholder="Depenses">
 <input type="number" name="ajout" placeholder="Ajout"><br>
@@ -101,7 +101,7 @@ echo "<div class='container'>";
 	
 	echo "<div class='depenses col-md-2'>
 	<a href='shuffle.php?remove=$row[id]'>
-	<i class='fa fa-remove btn btn-danger' style='float: right'></i></a>
+	<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>
 	<p><span class='id'>Identifiant</span> : $row[nom]</p>
 	<p><span class='id'>Retrait</span> : $row[retrait] €</p>
 	<p><span class='id'>Ajout</span> : $row[ajout] €</p>
@@ -135,15 +135,31 @@ echo "<div class='text-center button'>
 
 <style type="text/css">
 
+body{
+	background: url("http://www.psdgraphics.com/file/fresh-green-background.jpg") center fixed no-repeat;
+}
+
+.btn-remove{
+	background-color: #ff0000;
+	color: white;
+}
+
+.btn-remove:hover{
+	transition: 0.1s;
+	background-color: white;
+	color: #ff0000;
+	border: 1px #ff0000 solid;
+}
+
  .box{
 	font-size: 20px; 
-	border: 1px #0088CC solid; 
+	border: 1px #28C223 solid; 
 	margin-top: 1%; 
-	background-color: #0088CC; 
+	background-color: #28C223; 
 	border-radius: 10px; 
 	color: white; 
 	width: 30%; 
-	padding: 1%
+	padding: 1%;
 }
 
 .suivi{
@@ -151,7 +167,7 @@ echo "<div class='text-center button'>
 	margin: auto;
 	border-radius: 5px;
 	color: white;
-	border: 1px #0088CC solid;
+	border: 1px #28C223 solid;
 	padding: 2%;
 }
 
@@ -161,9 +177,9 @@ echo "<div class='text-center button'>
 
  .box:hover{
 	background-color: white; 
-	transition: 0.4s; 
-	color: #0088CC;
-	border: 1px #0088CC solid;
+	transition: 0.2s; 
+	color: #28C223;
+	border: 1px #28C223 solid;
  } 
 
  .box p{
@@ -175,7 +191,8 @@ echo "<div class='text-center button'>
 	max-height: 150px;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	border : 1px #0088cc solid; 
+	border : 1px #28C223 solid;
+	background-color: white;
 	margin: auto;
 	width: 25%;
 	margin-top: 2%;
@@ -183,8 +200,8 @@ echo "<div class='text-center button'>
 }
 
 .id{
-	color: #0088cc;
-	text-shadow: 0 0 1px #0088CC;
+	color: #28C223;
+	text-shadow: 0 0 1px #28C223;
 }
 
 .submit{
@@ -194,11 +211,11 @@ echo "<div class='text-center button'>
 
 .submit input{
 	padding: 0.5%;
-	border: 1px #0088CC solid;
+	border: 1px #28C223 solid;
 }
 
 .submit textarea{
-	border: 1px #0088CC solid;
+	border: 1px #28C223 solid;
 	padding: 0.5%;
 	margin: 1%;
 	min-width: 30%;
