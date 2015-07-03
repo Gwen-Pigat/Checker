@@ -26,12 +26,13 @@ body{
  .box{
 	font-size: 20px; 
 	border: 1px #28C223 solid; 
-	margin-top: 1%; 
+	margin-top: 4%; 
 	background-color: #28C223; 
 	border-radius: 10px; 
 	color: white; 
-	width: 30%; 
+	width: 40%; 
 	padding: 1%;
+	margin: auto;
 }
 
 .suivi{
@@ -49,6 +50,7 @@ body{
 
 .button{
 	margin-top: 5%;
+	margin-bottom: 2%;
 }
 
 .button .btn:hover{
@@ -65,7 +67,7 @@ body{
 	transition: 0.4s;
 }
 
-button{width: 10%;}
+.btn{word-break: break-all; max-width: 20%; min-width: 20%;}
 
  .box:hover{
 	background-color: white; 
@@ -91,6 +93,8 @@ button{width: 10%;}
 	padding: 1%; 
 }
 
+.depenses{display: none;}
+
 .id{
 	color: #28C223;
 	text-shadow: 0 0 1px #28C223;
@@ -99,7 +103,9 @@ button{width: 10%;}
 .submit{
 	padding: 1%;
 	margin: 2%;
+	margin-top: 10%;
 }
+
 
 .submit input{
 	padding: 0.5%;
@@ -114,4 +120,20 @@ button{width: 10%;}
 	max-width: 30%;
 	min-height: 10%;
 	max-height: 10%;
+}
+
+.init{
+	margin-top: 1%;
+}
+.init button, .init input{
+	padding: 0.5%;
+}
+
+
+/*Liste des dépenses*/
+
+
+.toggle{
+	display: none;
+	margin: auto
 }
