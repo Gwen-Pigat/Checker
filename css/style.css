@@ -1,0 +1,117 @@
+body{
+	background: url("http://www.psdgraphics.com/file/fresh-green-background.jpg") top fixed no-repeat;
+	font-family: cursive;
+}
+
+.main{
+	color: white;
+	text-shadow: 0 0 1px #28c223;
+	font-size: 7em;
+	margin-top: 5%;
+	font-family: "fantasy";
+}
+
+.btn-remove{
+	background-color: #ff0000;
+	color: white;
+}
+
+.btn-remove:hover{
+	transition: 0.1s;
+	background-color: white;
+	color: #ff0000;
+	border: 1px #ff0000 solid;
+}
+
+ .box{
+	font-size: 20px; 
+	border: 1px #28C223 solid; 
+	margin-top: 1%; 
+	background-color: #28C223; 
+	border-radius: 10px; 
+	color: white; 
+	width: 30%; 
+	padding: 1%;
+}
+
+.suivi{
+	width: 31%;
+	margin: auto;
+	border-radius: 5px;
+	color: white;
+	border: 1px #28C223 solid;
+	padding: 2%;
+}
+
+.course{
+	margin-top: 1%;
+}
+
+.button{
+	margin-top: 5%;
+}
+
+.button .btn:hover{
+	background-color: rgba(0,0,0,0);
+	color: black;
+	border: 1px black solid;
+	transition: 0.4s;
+}
+
+.button .btn-lg:hover{
+	background-color: black;
+	color: white;
+	border: 2px white solid;
+	transition: 0.4s;
+}
+
+button{width: 10%;}
+
+ .box:hover{
+	background-color: white; 
+	transition: 0.2s; 
+	color: #28C223;
+	border: 1px #28C223 solid;
+ } 
+
+ .box p{
+	word-break: break-all;
+	margin: 0;
+} 
+
+.liste, .depenses{
+	max-height: 150px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	border : 1px #28C223 solid;
+	background-color: white;
+	margin: auto;
+	width: 25%;
+	margin-top: 2%;
+	padding: 1%; 
+}
+
+.id{
+	color: #28C223;
+	text-shadow: 0 0 1px #28C223;
+}
+
+.submit{
+	padding: 1%;
+	margin: 2%;
+}
+
+.submit input{
+	padding: 0.5%;
+	border: 1px #28C223 solid;
+}
+
+.submit textarea{
+	border: 1px #28C223 solid;
+	padding: 0.5%;
+	margin: 1%;
+	min-width: 30%;
+	max-width: 30%;
+	min-height: 10%;
+	max-height: 10%;
+}

@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 
 <?php 
 $host = "localhost"; 
@@ -19,9 +20,9 @@ $date = date("Y-m-d H:i:s");
 <?php if (isset($_GET['hebergeur'])) { ?>
 
 <div class="text-center button">
-<a href="shuffle.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
-<a href="shuffle.php?depenses"><button class="btn btn-danger"><i class="fa fa-money fa-5x"></i></button></a><br><br><br>
-<form method="POST" action="shuffle.php?hebergeur"> 
+<a href="index.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
+<a href="index.php?depenses"><button class="btn btn-danger"><i class="fa fa-eur fa-5x"></i></button></a><br><br><br>
+<form method="POST" action="index.php?hebergeur"> 
 <button class="btn-lg btn-warning" name="submit" required>Générer un nouveau</button>
 
 </form>
@@ -48,8 +49,8 @@ $date = date("Y-m-d H:i:s");
 elseif(isset($_GET['depenses'])){ ?>
 
 <div class="text-center button">
-<a href="shuffle.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
-<a href="shuffle.php?hebergeur"><button class="btn btn-success"><i class="fa fa-code fa-5x"></i></button></a>
+<a href="index.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
+<a href="index.php?hebergeur"><button class="btn btn-success"><i class="fa fa-code fa-5x"></i></button></a>
 </div>
 
 <div class="container box text-center">
@@ -62,7 +63,7 @@ mysqli_close();
 
 </div> 
 <form action="TCPDF.php" method="POST"><button class="btn btn-info">Générer un PDF</button></form>
-<form action="shuffle.php?depenses" method="POST" class="text-center submit">
+<form action="index.php?depenses" method="POST" class="text-center submit">
 <input type="number" name="depenses" placeholder="Depenses">
 <input type="number" name="ajout" placeholder="Ajout"><br>
 <textarea cols="20" rows="2" name="nom" placeholder="Petite description de la dépense" required></textarea><br>
@@ -81,7 +82,7 @@ mysqli_close();
 		mysqli_query($link, "INSERT INTO ListeDepense(nom,retrait,date) VALUES ('$_POST[nom]','$_POST[depenses]','$date')");
 		// echo "<div class='container text-center'>Mise à jour<br><i class='fa fa-refresh fa-spin fa-5x'></i></div>";
 		mysqli_close(); 
-		header("location: shuffle.php?depenses");	
+		header("location: index.php?depenses");	
 	}
 
 	elseif(isset($_POST['ajout']) && !empty($_POST['ajout'])){
@@ -89,139 +90,61 @@ mysqli_close();
 		mysqli_query($link, "INSERT INTO ListeDepense(nom,ajout,date) VALUES ('$_POST[nom]','$_POST[ajout]','$date')");
 		// echo "<div class='container text-center'>Mise à jour<br><i class='fa fa-refresh fa-spin fa-5x'></i></div>";
 		mysqli_close(); 
-		// header("Refresh: 1; url=shuffle.php?depenses");
-		header("Location: shuffle.php?depenses");	
+		// header("Refresh: 1; url=index.php?depenses");
+		header("Location: index.php?depenses");	
 	}
 
-	// Liste des dépenses
+			// Liste des dépenses
 
-$result = mysqli_query($link, "SELECT * FROM ListeDepense");
-echo "<div class='container'>";
-	while($row = mysqli_fetch_assoc($result)) {
-	
-	echo "<div class='depenses col-md-2'>
-	<a href='shuffle.php?remove=$row[id]'>
-	<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>
-	<p><span class='id'>Identifiant</span> : $row[nom]</p>
-	<p><span class='id'>Retrait</span> : $row[retrait] €</p>
-	<p><span class='id'>Ajout</span> : $row[ajout] €</p>
-	<p><span class='id'>Date</span> : $row[date]</p>
-	</div>";
-	} 
-echo "</div>";
+		$result = mysqli_query($link, "SELECT * FROM ListeDepense");
+		echo "<div class='container'>";
+			while($row = mysqli_fetch_assoc($result)) {
+			
+			echo "<div class='depenses col-md-2'>
+			<a href='index.php?remove=$row[id]'>
+			<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>
+			<p><span class='id'>Identifiant</span> : $row[nom]</p>
+			<p><span class='id'>Retrait</span> : $row[retrait] €</p>
+			<p><span class='id'>Ajout</span> : $row[ajout] €</p>
+			<p><span class='id'>Date</span> : $row[date]</p>
+			</div>";
+			} 
+		echo "</div>";
 
 }
 
 elseif (isset($_GET['remove'])) {
 	mysqli_query($link, "DELETE FROM ListeDepense WHERE id='$_GET[remove]'");
-	header('Location: shuffle.php?depenses');
+	header('Location: index.php?depenses');
 }
 
+elseif (isset($_GET['course'])) { ?>
+	<div class="container">
+		<h1 class="text-center main">Votre liste</h1>	
+		<form method="POST" action="" class="liste_course">
+		<input type="text" placeholder="Nom de l'article"><br>
+		<input type="text" placeholder="Nom de l'article"><br>
+		<input type="text" placeholder="Nom de l'article"><br>
+		<input type="text" placeholder="Nom de l'article"><br>
+		<input type="text" placeholder="Nom de l'article"><br>
+		<input type="submit" class="btn btn-info" value="Valider">
+		</form>
+	</div>
+<?php } 
 
 
 // Page par défault
 
 else{
 
-echo "<div class='text-center button'>
-<a href='shuffle.php?depenses'><button class='btn btn-danger'><i class='fa fa-money fa-5x'></i></button></a>
-<a href='shuffle.php?hebergeur'><button class='btn btn-success'><i class='fa fa-code fa-5x'></i></button></a>
+echo "<h1 class='text-center main'>PixOFHeaven's Checker</h1>
+<div class='text-center button'>
+<a href='index.php?depenses'><button class='btn btn-danger'><i class='fa fa-eur fa-5x'></i><br>Mes dépenses</button></a>
+<a href='index.php?hebergeur'><button class='btn btn-success'><i class='fa fa-code fa-5x'></i><br>Password generator</button></a><br>
+<a href='index.php?course'><button class='btn btn-info course'><i class='fa fa-barcode fa-5x'></i><br>Créer une liste de course</button></a>
 </div>";
 
 } 
 
 
 ?>
-
-<style type="text/css">
-
-body{
-	background: url("http://www.psdgraphics.com/file/fresh-green-background.jpg") center fixed no-repeat;
-}
-
-.btn-remove{
-	background-color: #ff0000;
-	color: white;
-}
-
-.btn-remove:hover{
-	transition: 0.1s;
-	background-color: white;
-	color: #ff0000;
-	border: 1px #ff0000 solid;
-}
-
- .box{
-	font-size: 20px; 
-	border: 1px #28C223 solid; 
-	margin-top: 1%; 
-	background-color: #28C223; 
-	border-radius: 10px; 
-	color: white; 
-	width: 30%; 
-	padding: 1%;
-}
-
-.suivi{
-	width: 31%;
-	margin: auto;
-	border-radius: 5px;
-	color: white;
-	border: 1px #28C223 solid;
-	padding: 2%;
-}
-
-.button{
-	margin-top: 5%;
-}
-
- .box:hover{
-	background-color: white; 
-	transition: 0.2s; 
-	color: #28C223;
-	border: 1px #28C223 solid;
- } 
-
- .box p{
-	word-break: break-all;
-	margin: 0;
-} 
-
-.liste, .depenses{
-	max-height: 150px;
-	overflow-x: hidden;
-	overflow-y: scroll;
-	border : 1px #28C223 solid;
-	background-color: white;
-	margin: auto;
-	width: 25%;
-	margin-top: 2%;
-	padding: 1%; 
-}
-
-.id{
-	color: #28C223;
-	text-shadow: 0 0 1px #28C223;
-}
-
-.submit{
-	padding: 1%;
-	margin: 2%;
-}
-
-.submit input{
-	padding: 0.5%;
-	border: 1px #28C223 solid;
-}
-
-.submit textarea{
-	border: 1px #28C223 solid;
-	padding: 0.5%;
-	margin: 1%;
-	min-width: 30%;
-	max-width: 30%;
-	min-height: 10%;
-	max-height: 10%;
-}
-
-</style>
