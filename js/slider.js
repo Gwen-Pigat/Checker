@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	$(".toggle").delay(1000).fadeIn(1500);
+	$(".toggle").fadeIn(100);
 
 	$(".toggle").click(function(){
 		$(".depenses").toggle(1000);

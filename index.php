@@ -70,7 +70,8 @@ mysqli_close();
 
 </div>
 <form class="init text-center" method="POST" action="">
-<input type="text" name="submit" placeholder="Somme par défault"><button class="btn btn-info">Valider</button>
+<input type="text" name="submit" placeholder="Somme par défault"><br>
+<button class="btn btn-info">Valider</button>
 </form>
 
 <?php 
@@ -106,23 +107,23 @@ if (isset($_POST) && isset($_POST['submit'])) {
 
 	if (isset($_POST['depenses']) && !empty($_POST['depenses'])) {
 		mysqli_query($link, "UPDATE MoneyAvailable SET Date='$date', SommeDisponible='$depenses'");
-		mysqli_query($link, "INSERT INTO ShoppingList(nom,retrait,date) VALUES ('$_POST[nom]','$_POST[depenses]','$date')");
+		mysqli_query($link, "INSERT INTO OperationList(nom,retrait,date) VALUES ('$_POST[nom]','$_POST[depenses]','$date')");
 		mysqli_close(); 
 		header("location: index.php?depenses");	
 	}
 
 	elseif(isset($_POST['ajout']) && !empty($_POST['ajout'])){
 		mysqli_query($link, "UPDATE MoneyAvailable SET Date='$date', SommeDisponible='$ajout'");
-		mysqli_query($link, "INSERT INTO ShoppingList(nom,ajout,date) VALUES ('$_POST[nom]','$_POST[ajout]','$date')");
+		mysqli_query($link, "INSERT INTO OperationList(nom,ajout,date) VALUES ('$_POST[nom]','$_POST[ajout]','$date')");
 		mysqli_close(); 
 		header("Location: index.php?depenses");	
 	}
 
 			// Liste des dépenses
 
-		echo "<button class='toggle btn-lg btn-info text-center' id='toggle'>Liste des dépenses</button><br>";
+		echo "<button class='toggle btn btn-info text-center' id='toggle'>Cacher / Afficher</button><br>";
 
-		$result = mysqli_query($link, "SELECT * FROM ShoppingList");
+		$result = mysqli_query($link, "SELECT * FROM OperationList");
 		echo "<div class='liste_depenses'>";
 			while($row = mysqli_fetch_assoc($result)) {
 			
@@ -140,23 +141,44 @@ if (isset($_POST) && isset($_POST['submit'])) {
 }
 
 elseif (isset($_GET['remove'])) {
-	mysqli_query($link, "DELETE FROM ShoppingList WHERE id='$_GET[remove]'");
+	mysqli_query($link, "DELETE FROM OperationList WHERE id='$_GET[remove]'");
 	header('Location: index.php?depenses');
 }
 
-elseif (isset($_GET['course'])) { ?>
+elseif (isset($_GET['course'])) { 
+
+	$row = mysqli_fetch_assoc(mysqli_query($link, "SELECT * FROM ShoppingList"));
+
+	?>
+
+		<div class="text-center button">
+			<a href="index.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
+			<a href="index.php?hebergeur"><button class="btn btn-success"><i class="fa fa-code fa-5x"></i></button></a>
+			<a href="index.php?hebergeur"><button class="btn btn-danger"><i class="fa fa-eur fa-5x"></i></button></a>
+		</div>
 	
 		<h1 class="text-center main">Votre liste</h1>	
-		<form method="POST" action="" class="liste_course">
-		<input type="text" placeholder="Nom de l'article"><br>
-		<input type="text" placeholder="Nom de l'article"><br>
-		<input type="text" placeholder="Nom de l'article"><br>
-		<input type="text" placeholder="Nom de l'article"><br>
-		<input type="text" placeholder="Nom de l'article"><br>
-		<input type="submit" class="btn btn-info" value="Valider">
-		</form>
+			<form action="index.php?course" method="POST" class="text-center article_list">
+				<input type="text" name="article" placeholder="Nom de l'article" maxlength="55">
+				<button type="submit" class="btn btn-warning">Ajouter</button>
+			</form>
 	
-<?php } 
+<?php 
+
+mysqli_query($link, "INSERT INTO ShoppingList(Article_Name) VALUES ('$_POST[article]')");
+
+$result = mysqli_query($link, "SELECT * FROM ShoppingList");
+
+	while ($row = mysqli_fetch_assoc($result)) {
+		echo "<li class='shopping_list col-md-2'><a href='index.php?remove_article=$row[id]'>
+			<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>Nom de l'article : <br>- $row[Article_name]</li>";
+	}
+}
+
+elseif(isset($_GET['remove_article'])) {
+		mysqli_query($link, "DELETE FROM ShoppingList WHERE id='$_GET[remove_article]'");
+		header('Location: index.php?course');
+	}
 
 
 // Page par défault
