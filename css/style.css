@@ -4,6 +4,20 @@ body{
 	margin-bottom: 5%;
 }
 
+.btn-red{
+	margin-top: 1%;
+	background-color: #ff0000;
+	border: 3px #ff0000 solid;
+	color: white;
+}
+
+.btn-red:hover{
+	transition: 0.2s;
+	color: #ff0000;
+	background-color: white;
+	border: 3px #ff0000 solid;
+}
+
 .main{
 	color: white;
 	text-shadow: 0 0 1px #28c223;

@@ -158,14 +158,21 @@ elseif (isset($_GET['course'])) {
 		</div>
 	
 		<h1 class="text-center main">Votre liste</h1>	
+		<?php echo "<center><a href='index.php?flush'><button class='btn btn-red text-center'>Vider la liste</button></a></center>"; ?>
 			<form action="index.php?course" method="POST" class="text-center article_list">
-				<input type="text" name="article" placeholder="Nom de l'article" maxlength="55">
-				<button type="submit" class="btn btn-warning">Ajouter</button>
+				<input type="text" name="article" placeholder="Nom de l'article" maxlength="55" required>
+				<button type="submit" class="btn btn-warning">Ajouter</button><br>
 			</form>
+
 	
 <?php 
 
-mysqli_query($link, "INSERT INTO ShoppingList(Article_Name) VALUES ('$_POST[article]')");
+if (isset($_POST) && isset($_POST['article'])) {
+	if (!empty($_POST['article'])) {
+		mysqli_query($link, "INSERT INTO ShoppingList(Article_Name) VALUES ('$_POST[article]')");
+	}
+}
+
 
 $result = mysqli_query($link, "SELECT * FROM ShoppingList");
 
@@ -179,6 +186,11 @@ elseif(isset($_GET['remove_article'])) {
 		mysqli_query($link, "DELETE FROM ShoppingList WHERE id='$_GET[remove_article]'");
 		header('Location: index.php?course');
 	}
+elseif(isset($_GET['flush'])) {
+		mysqli_query($link, "DELETE FROM ShoppingList WHERE 1");
+		header('Location: index.php?course');
+	}	
+
 
 
 // Page par défault
