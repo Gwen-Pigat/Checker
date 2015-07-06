@@ -28,10 +28,10 @@ $date = date("Y-m-d H:i:s");
 <?php if (isset($_GET['hebergeur'])) { ?>
 
 <div class="text-center button">
-<a href="index.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
-<a href="index.php?depenses"><button class="btn btn-danger"><i class="fa fa-eur fa-5x"></i></button></a><br><br><br>
+<a href="index.php"><button class="btn btn-black"><i class="fa fa-home fa-5x"></i></button></a>
+<a href="index.php?depenses"><button class="btn btn-red"><i class="fa fa-eur fa-5x"></i></button></a><br><br><br>
 <form method="POST" action="index.php?hebergeur"> 
-<button class="btn-lg btn-warning" name="submit" required>Générer un nouveau</button>
+<button class="btn-lg btn-black" name="submit" required>Générer un nouveau</button>
 </form>
 </div>
 
@@ -56,8 +56,8 @@ $date = date("Y-m-d H:i:s");
 elseif(isset($_GET['depenses'])){ ?>
 
 <div class="text-center button">
-<a href="index.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
-<a href="index.php?hebergeur"><button class="btn btn-success"><i class="fa fa-code fa-5x"></i></button></a>
+<a href="index.php"><button class="btn btn-black"><i class="fa fa-home fa-5x"></i></button></a>
+<a href="index.php?hebergeur"><button class="btn btn-green"><i class="fa fa-code fa-5x"></i></button></a>
 </div>
 
 <div class="box">
@@ -95,7 +95,7 @@ if (isset($_POST) && isset($_POST['submit'])) {
 <input type="number" name="depenses" placeholder="Depenses">
 <input type="number" name="ajout" placeholder="Ajout"><br>
 <textarea cols="20" rows="2" name="nom" placeholder="Petite description de la dépense" required></textarea><br>
-<button type="submit" class="btn btn-warning">Actualiser</button>
+<button type="submit" class="btn btn-black">Actualiser</button>
 </form>
 
 <?php 
@@ -152,16 +152,18 @@ elseif (isset($_GET['course'])) {
 	?>
 
 		<div class="text-center button">
-			<a href="index.php"><button class="btn btn-warning"><i class="fa fa-home fa-5x"></i></button></a>
-			<a href="index.php?hebergeur"><button class="btn btn-success"><i class="fa fa-code fa-5x"></i></button></a>
-			<a href="index.php?hebergeur"><button class="btn btn-danger"><i class="fa fa-eur fa-5x"></i></button></a>
+			<a href="index.php"><button class="btn btn-black"><i class="fa fa-home fa-5x"></i></button></a>
+			<a href="index.php?hebergeur"><button class="btn btn-green"><i class="fa fa-code fa-5x"></i></button></a>
+			<a href="index.php?hebergeur"><button class="btn btn-red"><i class="fa fa-eur fa-5x"></i></button></a>
 		</div>
 	
 		<h1 class="text-center main">Votre liste</h1>	
-		<?php echo "<center><a href='index.php?flush'><button class='btn btn-red text-center'>Vider la liste</button></a></center>"; ?>
+		<?php echo "<center>
+		<a href='index.php?flush'><button class='btn btn-red text-center'>Vider la liste</button></a>
+	<a href='index.php?export'><button class='btn btn-blue text-center'>Exporter(PDF)</button></a></center>"; ?>
 			<form action="index.php?course" method="POST" class="text-center article_list">
 				<input type="text" name="article" placeholder="Nom de l'article" maxlength="55" required>
-				<button type="submit" class="btn btn-warning">Ajouter</button><br>
+				<button type="submit" class="btn btn-black">Ajouter</button><br>
 			</form>
 
 	
@@ -190,7 +192,10 @@ elseif(isset($_GET['flush'])) {
 		mysqli_query($link, "DELETE FROM ShoppingList WHERE 1");
 		header('Location: index.php?course');
 	}	
-
+elseif(isset($_GET['export'])) {
+		mysqli_query($link, "DELETE FROM ShoppingList WHERE 1");
+		header('Location: index.php?course');
+	}	
 
 
 // Page par défault
@@ -199,9 +204,9 @@ else{
 
 echo "<h1 class='text-center main'>Pix's Checker</h1>
 <div class='text-center button'>
-<a href='index.php?depenses'><button class='btn btn-danger'><i class='fa fa-eur fa-5x'></i><br>Mes dépenses</button></a>
-<a href='index.php?hebergeur'><button class='btn btn-success'><i class='fa fa-code fa-5x'></i><br>Password generator</button></a><br>
-<a href='index.php?course'><button class='btn btn-info course'><i class='fa fa-barcode fa-5x'></i><br>Créer une liste de course</button></a>
+<a href='index.php?depenses'><button class='btn btn-red'><i class='fa fa-eur fa-5x'></i><br>Mes dépenses</button></a>
+<a href='index.php?hebergeur'><button class='btn btn-green'><i class='fa fa-code fa-5x'></i><br>Password generator</button></a><br>
+<a href='index.php?course'><button class='btn btn-blue course'><i class='fa fa-barcode fa-5x'></i><br>Créer une liste de course</button></a>
 </div>";
 
 } 

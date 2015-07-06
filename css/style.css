@@ -4,19 +4,14 @@ body{
 	margin-bottom: 5%;
 }
 
-.btn-red{
-	margin-top: 1%;
-	background-color: #ff0000;
-	border: 3px #ff0000 solid;
-	color: white;
-}
-
-.btn-red:hover{
-	transition: 0.2s;
-	color: #ff0000;
-	background-color: white;
-	border: 3px #ff0000 solid;
-}
+.btn-red{margin-top: 1%;background-color: #ff0000;border: 3px #ff0000 solid;color: white}
+.btn-red:hover{transition: 0.2s;color: #ff0000;background-color: white;border: 3px #ff0000 solid}
+.btn-blue{margin-top: 1%;background-color: #6BE1FF;border: 3px #6BE1FF solid;color: white}
+.btn-blue:hover{transition: 0.2s;color: #6BE1FF;background-color: white;border: 3px #6BE1FF solid}
+.btn-green{margin-top: 1%;background-color: #7DDF32;border: 3px #7DDF32 solid;color: white}
+.btn-green:hover{transition: 0.2s;color: #7DDF32;background-color: white;border: 3px #7DDF32 solid}
+.btn-black{margin-top: 1%;background-color: #000000;border: 3px #000000 solid;color: white}
+.btn-black:hover{transition: 0.2s;color: #000000;background-color: white;border: 3px #000000 solid}
 
 .main{
 	color: white;
@@ -73,7 +68,7 @@ body{
 .button .btn:hover{
 	background-color: rgba(0,0,0,0);
 	color: black;
-	border: 1px black solid;
+	border: 3px black solid;
 	transition: 0.4s;
 }
 
@@ -118,7 +113,7 @@ body{
 .submit{
 	padding: 1%;
 	margin: 2%;
-	margin-top: 10%;
+	margin-top: 5%;
 }
 
 
@@ -166,6 +161,7 @@ body{
 
 .article_list input, .article_list button{
 	padding: 1%;
+	margin: 0;
 }
 
 .shopping_list{
