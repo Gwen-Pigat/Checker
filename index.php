@@ -17,7 +17,7 @@ $host = "localhost";
 $username = "root"; 
 $password = "motdepasselocalhostgwen"; 
 $db_name = "Checker"; 
-$link = mysqli_connect("$host", "$username", "$password", "$db_name")or die("Erreur de connexion"); 
+$link = new mysqli("$host", "$username", "$password", "$db_name")or die("Erreur de connexion"); 
 $password = str_shuffle("salutcommentcava1234567890"); 
 $date = date("Y-m-d H:i:s"); 
 ?>
@@ -36,7 +36,6 @@ $date = date("Y-m-d H:i:s");
 </div>
 
 <div class="box text-center">
-	<p></p>
  <?php echo "<strong>Mot de passe : </strong><br>$password<br><br><strong>Généré le :</strong><br>$date"; ?> 
 </div>
 
@@ -45,8 +44,7 @@ $date = date("Y-m-d H:i:s");
 
 	if (isset($_POST['submit'])) {
 
-	mysqli_query($link , "INSERT INTO Password(Password,Date) VALUES ('$password','$date')");
-	mysqli_close(); 
+	$link->query("INSERT INTO Password(Password,Date) VALUES ('$password','$date')");
 	}
 } 
 
@@ -63,8 +61,9 @@ elseif(isset($_GET['depenses'])){ ?>
 <div class="box">
 
 <?php 
-$row = mysqli_fetch_assoc(mysqli_query($link, "SELECT * FROM MoneyAvailable WHERE id=1"));	
-echo "<p class='text-center'>Votre somme actuelle : $row[SommeDisponible] €</p>"; 
+$result = $link->query("SELECT * FROM MoneyAvailable WHERE id=1");
+$row = $result->fetch_object();	
+echo "<p class='text-center'>Votre somme actuelle : $row->SommeDisponible €</p>"; 
 mysqli_close(); 
 ?>
 
@@ -81,13 +80,11 @@ mysqli_close();
 if (isset($_POST) && isset($_POST['submit'])) {
 	if (!empty($_POST['submit'])) {
 		
-		mysqli_query($link, "UPDATE MoneyAvailable SET SommeDisponible='$_POST[submit]'");
+		$link->query("UPDATE MoneyAvailable SET SommeDisponible='$_POST[submit]'");
 		header('Location: index.php?depenses');
 
 	}
 }
-
-
 
  ?>
 
@@ -102,19 +99,19 @@ if (isset($_POST) && isset($_POST['submit'])) {
 
 	$date = date("Y-m-d H:i:s");
 
-	$ajout = $row['SommeDisponible'] + $_POST['ajout'];
-	$depenses = $row['SommeDisponible'] - $_POST['depenses'];
+	$ajout = $row->SommeDisponible + $_POST['ajout'];
+	$depenses = $row->SommeDisponible - $_POST['depenses'];
 
 	if (isset($_POST['depenses']) && !empty($_POST['depenses'])) {
-		mysqli_query($link, "UPDATE MoneyAvailable SET Date='$date', SommeDisponible='$depenses'");
-		mysqli_query($link, "INSERT INTO OperationList(nom,retrait,date) VALUES ('$_POST[nom]','$_POST[depenses]','$date')");
+		$link->query("UPDATE MoneyAvailable SET Date='$date', SommeDisponible='$depenses'");
+		$link->query("INSERT INTO OperationList(nom,retrait,date) VALUES ('$_POST[nom]','$_POST[depenses]','$date')");
 		mysqli_close(); 
 		header("location: index.php?depenses");	
 	}
 
 	elseif(isset($_POST['ajout']) && !empty($_POST['ajout'])){
-		mysqli_query($link, "UPDATE MoneyAvailable SET Date='$date', SommeDisponible='$ajout'");
-		mysqli_query($link, "INSERT INTO OperationList(nom,ajout,date) VALUES ('$_POST[nom]','$_POST[ajout]','$date')");
+		$link->query("UPDATE MoneyAvailable SET Date='$date', SommeDisponible='$ajout'");
+		$link->query("INSERT INTO OperationList(nom,ajout,date) VALUES ('$_POST[nom]','$_POST[ajout]','$date')");
 		mysqli_close(); 
 		header("Location: index.php?depenses");	
 	}
@@ -123,17 +120,17 @@ if (isset($_POST) && isset($_POST['submit'])) {
 
 		echo "<button class='toggle btn btn-info text-center' id='toggle'>Cacher / Afficher</button><br>";
 
-		$result = mysqli_query($link, "SELECT * FROM OperationList");
+		$result = $link->query("SELECT * FROM OperationList");
 		echo "<div class='liste_depenses'>";
-			while($row = mysqli_fetch_assoc($result)) {
+			while($row = $result->fetch_object()) {
 			
 			echo "<div class='depenses col-md-2'>
-			<a href='index.php?remove=$row[id]'>
+			<a href='index.php?remove=$row->id'>
 			<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>
-			<p><span class='id'>Identifiant</span> : $row[nom]</p>
-			<p><span class='id'>Retrait</span> : $row[retrait] €</p>
-			<p><span class='id'>Ajout</span> : $row[ajout] €</p>
-			<p><span class='id'>Date</span> : $row[date]</p>
+			<p><span class='id'>Identifiant</span> : $row->nom</p>
+			<p><span class='id'>Retrait</span> : $row->retrait €</p>
+			<p><span class='id'>Ajout</span> : $row->ajout €</p>
+			<p><span class='id'>Date</span> : $row->date</p>
 			</div>";
 			} 
 		echo "</div>";
@@ -141,13 +138,14 @@ if (isset($_POST) && isset($_POST['submit'])) {
 }
 
 elseif (isset($_GET['remove'])) {
-	mysqli_query($link, "DELETE FROM OperationList WHERE id='$_GET[remove]'");
+	$link->query("DELETE FROM OperationList WHERE id='$_GET[remove]'");
 	header('Location: index.php?depenses');
 }
 
 elseif (isset($_GET['course'])) { 
 
-	$row = mysqli_fetch_assoc(mysqli_query($link, "SELECT * FROM ShoppingList"));
+	$result = $link->query("SELECT * FROM ShoppingList");
+	$row = $result->fetch_object();
 
 	?>
 
@@ -169,31 +167,31 @@ elseif (isset($_GET['course'])) {
 	
 <?php 
 
-if (isset($_POST) && isset($_POST['article'])) {
-	if (!empty($_POST['article'])) {
-		mysqli_query($link, "INSERT INTO ShoppingList(Article_Name) VALUES ('$_POST[article]')");
+	if (isset($_POST) && isset($_POST['article'])) {
+		if (!empty($_POST['article'])) {
+			$link->query("INSERT INTO ShoppingList(Article_Name) VALUES ('$_POST[article]')");
+		}
 	}
-}
 
 
-$result = mysqli_query($link, "SELECT * FROM ShoppingList");
+	$result = $link->query("SELECT * FROM ShoppingList");
 
-	while ($row = mysqli_fetch_assoc($result)) {
-		echo "<li class='shopping_list col-md-2'><a href='index.php?remove_article=$row[id]'>
-			<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>Nom de l'article : <br>- $row[Article_name]</li>";
+	while ($row = $result->fetch_object()) {
+		echo "<li class='shopping_list col-md-2'><a href='index.php?remove_article=$row->id'>
+			<i class='fa fa-remove btn btn-remove' style='float: right'></i></a>Nom de l'article : <br>- $row->Article_name</li>";
 	}
 }
 
 elseif(isset($_GET['remove_article'])) {
-		mysqli_query($link, "DELETE FROM ShoppingList WHERE id='$_GET[remove_article]'");
+		$link->query("DELETE FROM ShoppingList WHERE id='$_GET[remove_article]'");
 		header('Location: index.php?course');
 	}
 elseif(isset($_GET['flush'])) {
-		mysqli_query($link, "DELETE FROM ShoppingList WHERE 1");
+		$link->query("DELETE FROM ShoppingList WHERE 1");
 		header('Location: index.php?course');
 	}	
 elseif(isset($_GET['export'])) {
-		mysqli_query($link, "DELETE FROM ShoppingList WHERE 1");
+		$link->query("DELETE FROM ShoppingList WHERE 1");
 		header('Location: index.php?course');
 	}	
 
@@ -202,8 +200,9 @@ elseif(isset($_GET['export'])) {
 
 else{
 
-echo "<h1 class='text-center main'>Pix's Checker</h1>
-<div class='text-center button'>
+echo "<h1 class='text-center main' id='main'>Pix's Checker</h1>
+<center><i class='fa fa-refresh fa-spin fa-5x' id='loading'></i></center>
+<div class='text-center button' id='button'>
 <a href='index.php?depenses'><button class='btn btn-red'><i class='fa fa-eur fa-5x'></i><br>Mes dépenses</button></a>
 <a href='index.php?hebergeur'><button class='btn btn-green'><i class='fa fa-code fa-5x'></i><br>Password generator</button></a><br>
 <a href='index.php?course'><button class='btn btn-blue course'><i class='fa fa-barcode fa-5x'></i><br>Créer une liste de course</button></a>
